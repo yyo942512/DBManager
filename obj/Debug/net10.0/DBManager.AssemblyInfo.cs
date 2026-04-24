@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DBManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+42b8f191c7822f72fce3f13e8eb8c5089bb1606f")]
 [assembly: System.Reflection.AssemblyProductAttribute("DBManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DBManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

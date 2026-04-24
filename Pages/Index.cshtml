@@ -1,10 +1,324 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "選擇資料夾";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-hero mb-4">選擇資料夾</h1>
+    
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @if (!string.IsNullOrEmpty(Model.Message))
+                {
+                    <div class="alert-success mb-4">@Model.Message</div>
+                }
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">瀏覽器選擇資料夾 (Chrome/Edge)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="input-label">選擇資料夾</label>
+                            <div class="input-group">
+                                <input type="text" id="browserSelectedPath" class="form-control" readonly placeholder="點擊選擇資料夾" />
+                                <button type="button" id="browseBtn" class="btn-nvidia">選擇資料夾</button>
+                            </div>
+                            <small class="text-muted">使用瀏覽器對話框選擇資料夾</small>
+                        </div>
+                        <button type="button" id="browserConfirmBtn" class="btn-nvidia">確認</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">樹狀結構瀏覽 (遠端主機)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="input-label">目前路徑</label>
+                            <div class="input-group">
+                                <button type="button" id="backBtn" class="btn-nvidia-compact" title="返回上一頁">返回</button>
+                                <input type="text" id="currentPath" class="form-control" readonly />
+                                <button type="button" id="confirmBtn" class="btn-nvidia">確認</button>
+                            </div>
+                        </div>
+
+                        <div id="folderBrowser" class="folder-browser">
+                            <div class="text-center py-4">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="videoSection" class="card mt-4" style="display: none;">
+                    <div class="card-header">
+                        <h5 class="mb-0">影片檔案</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="videoList" class="folder-browser">
+                            <div class="text-center py-4">
+                                <div class="spinner-border" role="status"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="metadataSection" class="card mt-4" style="display: none;">
+                    <div class="card-header">
+                        <h5 class="mb-0">影片註解</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="metadataForm">
+                            <div class="mb-3">
+                                <label class="input-label">標題 (Title)</label>
+                                <input type="text" id="metaTitle" class="form-control" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="input-label">演出者 (Artist)</label>
+                                <input type="text" id="metaArtist" class="form-control" />
+                            </div>
+                            <div class="mb-3">
+                                <label class="input-label">註解 (Comment)</label>
+                                <textarea id="metaComment" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="input-label">描述 (Description)</label>
+                                <textarea id="metaDescription" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="input-label">時長</label>
+                                <input type="text" id="metaDuration" class="form-control" readonly />
+                            </div>
+                            <div class="input-group">
+                                <button type="button" id="saveMetadataBtn" class="btn-nvidia">儲存</button>
+                                <button type="button" id="closeMetadataBtn" class="btn-nvidia-compact">關閉</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        let currentFolderPath = '';
+        let currentVideoPath = '';
+
+        document.getElementById('browseBtn').addEventListener('click', async function() {
+            if ('showDirectoryPicker' in window) {
+                try {
+                    const handle = await window.showDirectoryPicker();
+                    const path = handle.name;
+                    document.getElementById('browserSelectedPath').value = path;
+                    loadVideos(path);
+                } catch (err) {
+                    console.log('使用者取消選擇');
+                }
+            } else {
+                alert('此瀏覽器不支援資料夾選擇功能，請使用 Chrome 或 Edge 瀏覽器');
+            }
+        });
+
+        document.getElementById('browserConfirmBtn').addEventListener('click', function() {
+            const path = document.getElementById('browserSelectedPath').value;
+            if (!path) {
+                alert('請先選擇資料夾');
+                return;
+            }
+            loadVideos(path);
+        });
+
+        function loadVideos(path) {
+            currentFolderPath = path;
+            const videoSection = document.getElementById('videoSection');
+            const videoList = document.getElementById('videoList');
+            
+            videoSection.style.display = 'block';
+            videoList.innerHTML = '<div class="text-center py-4"><div class="spinner-border" role="status"></div></div>';
+            
+            fetch(`/Index?handler=Videos&path=${encodeURIComponent(path)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        videoList.innerHTML = '<div class="text-center py-4 text-muted">此資料夾沒有影片檔案</div>';
+                        return;
+                    }
+                    
+                    let html = '<ul class="list-group">';
+                    data.forEach(item => {
+                        html += `<li class="list-group-item">
+                            <a href="#" class="folder-item" onclick="loadMetadata('${item.path.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'); return false;">
+                                <span class="icon">🎬</span>
+                                <span class="name">${item.name}</span>
+                                <span class="text-muted" style="margin-left: auto; font-size: 0.8rem;">${item.sizeFormatted}</span>
+                            </a>
+                        </li>`;
+                    });
+                    html += '</ul>';
+                    videoList.innerHTML = html;
+                })
+                .catch(err => {
+                    videoList.innerHTML = '<div class="text-center py-4 text-danger">載入失敗</div>';
+                });
+        }
+
+        function loadMetadata(path) {
+            currentVideoPath = path;
+            const metadataSection = document.getElementById('metadataSection');
+            metadataSection.style.display = 'block';
+            
+            document.getElementById('metaTitle').value = '';
+            document.getElementById('metaArtist').value = '';
+            document.getElementById('metaComment').value = '';
+            document.getElementById('metaDescription').value = '';
+            document.getElementById('metaDuration').value = '';
+            
+            fetch(`/Index?handler=VideoMetadata&path=${encodeURIComponent(path)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('讀取失敗: ' + data.error);
+                        return;
+                    }
+                    
+                    document.getElementById('metaTitle').value = data.title || '';
+                    document.getElementById('metaArtist').value = data.artist || '';
+                    document.getElementById('metaComment').value = data.comment || '';
+                    document.getElementById('metaDescription').value = data.description || '';
+                    document.getElementById('metaDuration').value = data.durationFormatted || '';
+                })
+                .catch(err => {
+                    alert('讀取失敗');
+                });
+        }
+
+        document.getElementById('saveMetadataBtn').addEventListener('click', function() {
+            if (!currentVideoPath) {
+                alert('請先選擇影片檔案');
+                return;
+            }
+            
+            const title = document.getElementById('metaTitle').value;
+            const artist = document.getElementById('metaArtist').value;
+            const comment = document.getElementById('metaComment').value;
+            const description = document.getElementById('metaDescription').value;
+            
+            const formData = new URLSearchParams();
+            formData.append('path', currentVideoPath);
+            formData.append('title', title);
+            formData.append('artist', artist);
+            formData.append('comment', comment);
+            formData.append('description', description);
+            
+            console.log('Sending request:', {
+                path: currentVideoPath,
+                title, artist, comment, description
+            });
+            console.log('FormData:', formData.toString());
+            
+            fetch('/Index?handler=UpdateMetadata', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response:', data);
+                if (data.success) {
+                    alert('已成功更新影片註解');
+                } else {
+                    let msg = '更新失敗:\n\n';
+                    if (data.error) msg += data.error + '\n\n';
+                    if (data.exitCode !== undefined) msg += 'Exit Code: ' + data.exitCode + '\n';
+                    if (data.command) msg += 'Command: ' + data.command + '\n';
+                    if (data.tempPath) msg += 'Temp: ' + data.tempPath + '\n';
+                    if (data.workingDir) msg += 'Dir: ' + data.workingDir + '\n';
+                    console.error(msg);
+                    alert(msg);
+                }
+            })
+            .catch(err => {
+                alert('儲存失敗');
+            });
+        });
+
+        document.getElementById('closeMetadataBtn').addEventListener('click', function() {
+            document.getElementById('metadataSection').style.display = 'none';
+            currentVideoPath = '';
+        });
+
+        let currentPath = '';
+        let pathHistory = [''];
+        
+        function loadFolders(path) {
+            const browser = document.getElementById('folderBrowser');
+            browser.innerHTML = '<div class="text-center py-4"><div class="spinner-border" role="status"></div></div>';
+            
+            document.getElementById('currentPath').value = path;
+            
+            fetch(`/Index?handler=Folders&path=${encodeURIComponent(path)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        browser.innerHTML = '<div class="text-center py-4 text-muted">無法存取或沒有資料夾</div>';
+                        return;
+                    }
+                    
+                    let html = '<ul class="list-group">';
+                    data.forEach(item => {
+                        const icon = item.isDrive ? '💾' : '📁';
+                        html += `<li class="list-group-item">
+                            <a href="#" class="folder-item" onclick="navigateTo('${item.path.replace(/\\/g, '\\\\')}'); return false;">
+                                <span class="icon">${icon}</span>
+                                <span class="name">${item.name}</span>
+                            </a>
+                        </li>`;
+                    });
+                    html += '</ul>';
+                    browser.innerHTML = html;
+                })
+                .catch(err => {
+                    browser.innerHTML = '<div class="text-center py-4 text-danger">載入失敗</div>';
+                });
+        }
+
+        function navigateTo(path) {
+            currentPath = path;
+            pathHistory.push(path);
+            loadFolders(path);
+        }
+
+        document.getElementById('backBtn').addEventListener('click', function() {
+            if (pathHistory.length > 1) {
+                pathHistory.pop();
+                const previousPath = pathHistory[pathHistory.length - 1];
+                currentPath = previousPath;
+                loadFolders(previousPath);
+            }
+        });
+
+        document.getElementById('confirmBtn').addEventListener('click', function() {
+            const path = document.getElementById('currentPath').value;
+            if (!path) {
+                alert('請先選擇資料夾');
+                return;
+            }
+            loadVideos(path);
+        });
+
+        loadFolders('');
+    </script>
+}

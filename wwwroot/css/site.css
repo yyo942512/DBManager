@@ -1,5 +1,39 @@
+:root {
+  --nvidia-green: #76b900;
+  --nvidia-green-light: #bff230;
+  --orange-400: #df6500;
+  --yellow-300: #ef9100;
+  --yellow-050: #feeeb2;
+  --red-500: #e52020;
+  --red-800: #650b0b;
+  --green-500: #3f8500;
+  --blue-700: #0046a4;
+  --purple-800: #4d1368;
+  --purple-100: #f9d4ff;
+  --fuchsia-700: #8c1c55;
+  --gray-300: #a7a7a7;
+  --gray-400: #898989;
+  --gray-500: #757575;
+  --gray-border: #5e5e5e;
+  --near-black: #1a1a1a;
+  --true-black: #000000;
+  --pure-white: #ffffff;
+  --link-hover: #3860be;
+  --btn-hover: #1eaedb;
+  --btn-active: #007fff;
+  --card-shadow: rgba(0, 0, 0, 0.3) 0px 0px 5px 0px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 html {
   font-size: 14px;
+  position: relative;
+  min-height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -8,24 +42,456 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+  font-family: 'NVIDIA-EMEA', Arial, Helvetica, sans-serif;
+  background-color: var(--true-black);
+  color: var(--pure-white);
+  line-height: 1.50;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.25;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.display-hero {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.section-heading {
+  font-size: 1.50rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.body-large {
+  font-size: 1.13rem;
+  font-weight: 700;
+  line-height: 1.67;
+}
+
+.body-small {
+  font-size: 0.94rem;
+  font-weight: 400;
+  line-height: 1.67;
+}
+
+.caption {
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.50;
+}
+
+a {
+  color: var(--pure-white);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
+.navbar {
+  background-color: var(--true-black);
+  border-bottom: 2px solid var(--nvidia-green);
+  padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--pure-white) !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.navbar-nav .nav-link {
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--pure-white) !important;
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--nvidia-green) !important;
+}
+
+.navbar-toggler {
+  border: 1px solid var(--nvidia-green);
+  border-radius: 2px;
+  padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28118, 185, 0, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.container {
+  max-width: 1200px;
+  flex: 1;
+}
+
+main {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+.btn-nvidia {
+  background-color: transparent;
+  color: var(--nvidia-green);
+  padding: 11px 13px;
+  border: 2px solid var(--nvidia-green);
+  border-radius: 2px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.btn-nvidia:hover {
+  background-color: var(--btn-hover);
+  color: var(--pure-white);
+  border-color: var(--btn-hover);
+}
+
+.btn-nvidia:active {
+  background-color: var(--btn-active);
+  color: var(--pure-white);
+  border: 1px solid #003eff;
+  transform: scale(1);
+}
+
+.btn-nvidia:focus {
+  background-color: var(--btn-hover);
+  color: var(--pure-white);
+  outline: 2px solid var(--true-black);
+  outline-offset: 2px;
+  opacity: 0.9;
+}
+
+.btn-nvidia-secondary {
+  background-color: transparent;
+  color: var(--nvidia-green);
+  padding: 11px 13px;
+  border: 1px solid var(--nvidia-green);
+  border-radius: 2px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-nvidia-secondary:hover {
+  background-color: var(--nvidia-green);
+  color: var(--true-black);
+}
+
+.btn-nvidia-compact {
+  background-color: transparent;
+  color: var(--nvidia-green);
+  padding: 8px 11px;
+  border: 1px solid var(--nvidia-green);
+  border-radius: 2px;
+  font-size: 0.90rem;
+  font-weight: 700;
+  line-height: 1.00;
+  letter-spacing: 0.144px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-nvidia-compact:hover {
+  background-color: var(--nvidia-green);
+  color: var(--true-black);
+}
+
+.card {
+  background-color: var(--near-black);
+  border: 1px solid var(--gray-border);
+  border-radius: 2px;
+  box-shadow: var(--card-shadow);
+  padding: 16px 24px;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px 0px;
+}
+
+.card-header {
+  background-color: transparent;
+  border-bottom: 2px solid var(--nvidia-green);
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.card-header h5 {
+  color: var(--pure-white);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.form-control {
+  background-color: var(--near-black);
+  border: 1px solid var(--gray-border);
+  border-radius: 2px;
+  color: var(--pure-white);
+  padding: 11px 13px;
+  font-size: 1rem;
+  line-height: 1.25;
+  transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+  background-color: var(--near-black);
+  border-color: var(--nvidia-green);
+  color: var(--pure-white);
+  outline: none;
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: var(--gray-500);
+}
+
+.form-control:read-only {
+  background-color: var(--true-black);
+  color: var(--gray-300);
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.input-group .form-control {
+  flex: 1;
+}
+
+.input-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gray-300);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.text-muted {
+  color: var(--gray-500) !important;
+}
+
+.text-white {
+  color: var(--pure-white) !important;
+}
+
+.folder-browser {
+  background-color: var(--true-black);
+  border: 1px solid var(--gray-border);
+  border-radius: 2px;
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.folder-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--pure-white);
+}
+
+.folder-item:hover {
+  background-color: var(--near-black);
+  color: var(--nvidia-green);
+}
+
+.folder-item .icon {
+  margin-right: 12px;
+  font-size: 1.25rem;
+}
+
+.folder-item .name {
+  font-size: 0.94rem;
+  font-weight: 400;
+}
+
+.list-group {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-group-item {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--gray-border);
+  padding: 0;
+}
+
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+.alert-success {
+  background-color: transparent;
+  border: 2px solid var(--nvidia-green);
+  border-radius: 2px;
+  color: var(--nvidia-green);
+  padding: 12px 16px;
+  font-weight: 700;
+}
+
+.spinner-border {
+  border: 3px solid var(--gray-border);
+  border-top-color: var(--nvidia-green);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.footer {
+  background-color: var(--true-black);
+  border-top: 1px solid var(--gray-border);
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.footer a {
+  color: var(--gray-300);
+}
+
+.footer a:hover {
+  color: var(--nvidia-green);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-danger {
+  color: var(--red-500) !important;
+}
+
+.py-4 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 2rem;
+}
+
+.mt-4 {
+  margin-top: 2rem;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.rounded {
+  border-radius: 2px;
+}
+
+.border {
+  border: 1px solid var(--gray-border);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 768px) {
+  .display-hero {
+    font-size: 1.50rem;
+  }
+
+  .section-heading {
+    font-size: 1.25rem;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .btn-nvidia,
+  .btn-nvidia-secondary,
+  .btn-nvidia-compact {
+    width: 100%;
+    margin-bottom: 8px;
+  }
 }

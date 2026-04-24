@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="ffmpeg/**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <PropertyGroup>
     <FfmpegDir>$(MSBuildProjectDirectory)/ffmpeg</FfmpegDir>
     <FfmpegExe>$(FfmpegDir)/ffmpeg.exe</FfmpegExe>

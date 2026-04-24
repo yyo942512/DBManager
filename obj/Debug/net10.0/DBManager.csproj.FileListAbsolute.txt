@@ -21,7 +21,6 @@ D:\Lance\code\side\DBManager\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\scopedcss\bundle\DBManager.styles.css
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\scopedcss\projectbundle\DBManager.bundle.scp.css
-D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\bqpt49yw8l-{0}-b9sayid5wm-b9sayid5wm.gz
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\hjqndigzwp-{0}-61n19gt1b8-61n19gt1b8.gz
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\hlj3c4l1uy-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\92l4th0blz-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -83,8 +82,6 @@ D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\g6nzlnjgot-{0}-2z0ns9n
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\p5u7y68usq-{0}-muycvpuwrr-muycvpuwrr.gz
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\ojy4da5f3e-{0}-87fc7y1x7t-87fc7y1x7t.gz
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\2ley723u2m-{0}-mlv21k5csn-mlv21k5csn.gz
-D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\4ck197agnp-{0}-0a96k8fwv0-0a96k8fwv0.gz
-D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\mos9msp3d8-{0}-0a96k8fwv0-0a96k8fwv0.gz
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\staticwebassets.build.json
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\staticwebassets.build.json.cache
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\staticwebassets.development.json
@@ -95,3 +92,9 @@ D:\Lance\code\side\DBManager\obj\Debug\net10.0\refint\DBManager.dll
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\DBManager.pdb
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\DBManager.genruntimeconfig.cache
 D:\Lance\code\side\DBManager\obj\Debug\net10.0\ref\DBManager.dll
+D:\Lance\code\side\DBManager\obj\Debug\net10.0\DBManager.sourcelink.json
+D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\4ck197agnp-{0}-red0qzl38d-red0qzl38d.gz
+D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\mos9msp3d8-{0}-red0qzl38d-red0qzl38d.gz
+D:\Lance\code\side\DBManager\obj\Debug\net10.0\compressed\bqpt49yw8l-{0}-4funj3ao75-4funj3ao75.gz
+D:\Lance\code\side\DBManager\bin\Debug\net10.0\ffmpeg\ffmpeg.exe
+D:\Lance\code\side\DBManager\bin\Debug\net10.0\ffmpeg\ffprobe.exe
