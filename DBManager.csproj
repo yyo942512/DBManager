@@ -1,0 +1,55 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <FfmpegDir>$(MSBuildProjectDirectory)/ffmpeg</FfmpegDir>
+    <FfmpegExe>$(FfmpegDir)/ffmpeg.exe</FfmpegExe>
+    <FfmpegZip>$(MSBuildProjectDirectory)/ffmpeg-temp/ffmpeg.zip</FfmpegZip>
+  </PropertyGroup>
+
+  <Target Name="CheckOrDownloadFfmpeg" BeforeTargets="Build">
+    <Exec Command="ffmpeg -version" IgnoreExitCode="true">
+      <Output TaskParameter="ExitCode" PropertyName="FfmpegAvailable" />
+    </Exec>
+
+    <Message Text="FFmpeg found in PATH" Importance="high" Condition="'$(FfmpegAvailable)' == '0'" />
+
+    <Exec Command="cmd /c &quot;$(FfmpegExe) -version&quot;" IgnoreExitCode="true" Condition="'$(FfmpegAvailable)' != '0'">
+      <Output TaskParameter="ExitCode" PropertyName="FfmpegLocalAvailable" />
+    </Exec>
+
+    <Message Text="FFmpeg found locally at $(FfmpegExe)" Importance="high" Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' == '0'" />
+
+    <MakeDir Directories="$(MSBuildProjectDirectory)/ffmpeg-temp" Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'" />
+    <MakeDir Directories="$(FfmpegDir)" Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'" />
+
+    <Exec Command="curl -sL -o &quot;$(FfmpegZip)&quot; &quot;https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip&quot;"
+          Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'" />
+
+    <Exec Command="powershell -Command &quot;Expand-Archive -Path '$(FfmpegZip)' -DestinationPath '$(MSBuildProjectDirectory)/ffmpeg-temp' -Force&quot;"
+          Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'" />
+
+    <ItemGroup Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'">
+      <FfmpegBin Include="$(MSBuildProjectDirectory)/ffmpeg-temp/**/ffmpeg.exe" />
+      <FfmpegBin Include="$(MSBuildProjectDirectory)/ffmpeg-temp/**/ffprobe.exe" />
+    </ItemGroup>
+
+    <Copy Condition="'@(FfmpegBin)' != ''"
+          SourceFiles="@(FfmpegBin)"
+          DestinationFolder="$(FfmpegDir)" />
+
+    <Delete Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'"
+            Files="$(FfmpegZip)" />
+
+    <RemoveDir Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'"
+               Directories="$(MSBuildProjectDirectory)/ffmpeg-temp" />
+
+    <Message Text="FFmpeg downloaded successfully to $(FfmpegExe)" Importance="high" Condition="'$(FfmpegAvailable)' != '0' and '$(FfmpegLocalAvailable)' != '0'" />
+  </Target>
+
+</Project>
